@@ -1,8 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>LAB_1</title>
+        <title>LAB_2</title>
         <meta charset="utf-8" />
+        <style type="text/css">
+            table, th, td {
+                border: 1px solid black;
+                border-collapse: collapse;
+            }
+            form {
+                padding-top: 10px;
+            }
+        </style>
     </head>
     <body>
         <h2>Пользователи</h2>
@@ -22,7 +31,7 @@
         $userCount = mysqli_num_rows($resultSet);
 
         echo "<p>Всего пользователей: $userCount</p>";
-        echo "<table><tr><th>ID</th><th>Имя</th><th>Фамилия</th><th>Пол</th><th>Возраст</th></tr>";
+        echo "<table style=''><tr><th>ID</th><th>Имя</th><th>Фамилия</th><th>Пол</th><th>Возраст</th></tr>";
 
         foreach($resultSet as $user)
         {
@@ -45,6 +54,34 @@
 
     mysqli_close($connection);
 ?>
+
+    <!-- Форма добавления пользователя -->
+    <form method="POST" action="save.php">
+        <fieldset style="width: 20%">
+            <legend>Добавление нового пользователя</legend>
+            <ul>
+                <li><p>Имя: <input type="text" name="name" /></p></li>
+                <li><p>Фамилия: <input type="text" name="surname" /></p></li>
+                <li><p>Пол:
+                    <input type="radio" name="sex" value="1" /> муж
+                    <input type="radio" name="sex" value="0" /> жен <br></li>
+                </p>
+                <li><p>Возраст: <input type="number" name="age" min="0" max="100" /></p></li>
+            </ul>
+            <input type="submit" name="submit" />
+        </fieldset>
+    </form>
+
+    <!-- Форма удаления пользователя -->
+    <form method="POST" action="delete.php">
+        <fieldset style="width: 20%">
+            <legend>Удаление пользователя</legend>
+            <ul>
+                <li><p>ID: <input type="number" name="id" min="0" /></p></li>
+            </ul>
+            <input type="submit" name="submit" />
+        </fieldset>
+    </form>
 
     </body>
 </html>
