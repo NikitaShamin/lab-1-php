@@ -1,87 +1,44 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>LAB_2</title>
-        <meta charset="utf-8" />
-        <style type="text/css">
-            table, th, td {
-                border: 1px solid black;
-                border-collapse: collapse;
-            }
-            form {
-                padding-top: 10px;
-            }
-        </style>
-    </head>
-    <body>
-        <h2>Пользователи</h2>
-
 <?php
-    $connection = mysqli_connect("localhost", "root", "", "Test");
-
-    if (!$connection)
+    // Если в куках лежит значение user, значит открываем страницу профиля
+    if (isset($_COOKIE['user']))
     {
-        die("Ошибка подключения: " . mysqli_connect_error());
+        header("Location: profile.php");
     }
-
-    $sqlQuery = "SELECT * FROM Users";
-
-    if($resultSet = mysqli_query($connection, $sqlQuery))
-    {
-        $userCount = mysqli_num_rows($resultSet);
-
-        echo "<p>Всего пользователей: $userCount</p>";
-        echo "<table style=''><tr><th>ID</th><th>Имя</th><th>Фамилия</th><th>Пол</th><th>Возраст</th></tr>";
-
-        foreach($resultSet as $user)
-        {
-            echo "<tr>";
-                echo "<td>" . $user["id"] . "</td>";
-                echo "<td>" . $user["name"] . "</td>";
-                echo "<td>" . $user["surname"] . "</td>";
-                echo "<td>" . ($user["sex"] ? "м" : "ж") . "</td>";
-                echo "<td>" . $user["age"] . "</td>";
-            echo "</tr>";
-        }
-
-        echo "</table>";
-        mysqli_free_result($resultSet);
-    }
-    else
-    {
-        echo "Ошибка: " . mysqli_error($connection);
-    }
-
-    mysqli_close($connection);
 ?>
 
-    <!-- Форма добавления пользователя -->
-    <form method="POST" action="save.php">
-        <fieldset style="width: 20%">
-            <legend>Добавление нового пользователя</legend>
-            <ul>
-                <li><p>Имя: <input type="text" name="name" /></p></li>
-                <li><p>Фамилия: <input type="text" name="surname" /></p></li>
-                <li><p>Пол:
-                    <input type="radio" name="sex" value="1" /> муж
-                    <input type="radio" name="sex" value="0" /> жен <br></li>
-                </p>
-                <li><p>Возраст: <input type="number" name="age" min="0" max="100" /></p></li>
-            </ul>
-            <input type="submit" name="submit" />
-        </fieldset>
-    </form>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
 
-    <!-- Форма удаления пользователя -->
-    <form method="POST" action="delete.php">
-        <fieldset style="width: 20%">
-            <legend>Удаление пользователя</legend>
-            <ul>
-                <li><p>ID: <input type="number" name="id" min="0" /></p></li>
-            </ul>
-            <input type="submit" name="submit" />
-        </fieldset>
-    </form>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-    </body>
+    <title>Вход/Регистрация</title>
+</head>
+<body>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col">
+                <h1>Форма регистрации</h1>
+                <form action="register.php" method="post">
+                    <input type="text" name="login" class="form-control" id="login" placeholder="Логин"><br>
+                    <input type="text" name="name" class="form-control" id="name" placeholder="Имя"><br>
+                    <input type="password" name="pass" class="form-control" id="pass" placeholder="Пароль"><br>
+                    <button class="btn btn-success">Зарегистрироваться</button><br>
+                </form>
+            </div>
+
+            <div class="col">
+                <h1>Форма авторизации</h1>
+                <form action="auth.php" method="post">
+                    <input type="text" name="login" class="form-control" id="login" placeholder="Логин"><br>
+                    <input type="password" name="pass" class="form-control" id="pass" placeholder="Пароль"><br>
+                    <button class="btn btn-success">Авторизоваться</button><br>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
 </html>
